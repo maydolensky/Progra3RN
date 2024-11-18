@@ -12,6 +12,15 @@ class Login extends Component {
       errorMSG: ""
     }
   }
+  
+  componentDidMount(){
+    auth.onAuthStateChanged(user =>{
+      if(user){
+        this.props.navigation.navigate('HomeMenu')
+      }
+    })
+  }
+
   handleSubmit(email, password){
     if (email === '' || password === ''){
       this.setState({errorMSG: 'todos lo campos son obligatorios'})
