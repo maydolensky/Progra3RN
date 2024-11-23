@@ -22,6 +22,7 @@ export class Home extends Component {
     this.setState({
       isLoading: true,
     });
+    
     this.fetchPosts();}
     fetchPosts = () => {
     db.collection("posts").onSnapshot((docs) => {
