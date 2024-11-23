@@ -25,7 +25,9 @@ export class Home extends Component {
     
     this.fetchPosts();}
     fetchPosts = () => {
-    db.collection("posts").onSnapshot((docs) => {
+    db.collection("posts")
+    .orderBy("createdAt", "desc")
+    .onSnapshot((docs) => {
       let posteos = [];
       docs.forEach((doc) => {
         posteos.push({
