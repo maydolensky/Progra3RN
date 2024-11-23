@@ -9,6 +9,7 @@ export class NuevoPost extends Component {
     this.state = {
       errorMSG: "",
       mensaje: "",
+
     };
   }
   handleSubmit(mensaje) {
@@ -16,6 +17,7 @@ export class NuevoPost extends Component {
       .add({
         email: auth.currentUser.email,
         mensaje: mensaje,
+        likes: [],
         createdAt: Date.now(),
       })
       .then(() => {
