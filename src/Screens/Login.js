@@ -45,7 +45,7 @@ class Login extends Component {
           secureTextEntry={true}
           onChangeText={text => this.setState({ password: text })}
           value={this.state.password} />
-        <TouchableOpacity style={styles.boton} onPress={() => this.handleSubmit(this.state.email, this.state.password)}>
+        <TouchableOpacity style={styles.button} onPress={() => this.handleSubmit(this.state.email, this.state.password)}>
           <Text style={[styles.boton]}> Login </Text>
         </TouchableOpacity>
         {this.state.errorMSG && <Text>{this.state.errorMSG}</Text>}
@@ -58,40 +58,68 @@ class Login extends Component {
 }
 export default Login
 const styles = StyleSheet.create({
-  container:{
-    margin: 20,
-  },
-  heading:{
-    fontSize: 30,
-    fontWeight:700,
-    marginBottom:10,
-  },
-  field:{
-    height: 20,
-    paddingVertical: 15,
-    paddingHorizontal: 10,
-    borderWidth: 1,
-    borderColor:'#ccc' ,
-    borderStyle: 'solid',
-    borderRadius: 6,
-    marginVertical: 10
-  },
-  boton: {
-    backgroundColor: '#28A745',
-    paddingHorizontal: 10,
-    paddingVertical: 6,
+  container: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 4,
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: '#28A745',
-},
-  button:{
-    backgroundColor: "#51B9E9",
-    borderRadius: 5,
-    padding:5,
-    width:"100%",
-    alignItems: "center",
-    marginTop:10,
+    backgroundColor: '#f4f4f4',
+    padding: 20,
   },
-})
+  heading: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#333',
+  },
+  profileImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginBottom: 20,
+  },
+  field: {
+    width: '90%',
+    height: 50,
+    backgroundColor: '#fff',
+    borderRadius: 25,
+    paddingHorizontal: 15,
+    fontSize: 16,
+    marginBottom: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  button: {
+    backgroundColor: '#4a90e2',
+    width: '90%',
+    height: 50,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  registerButton: {
+    marginTop: 10,
+  },
+  registerText: {
+    color: '#4a90e2',
+    fontSize: 14,
+    textDecorationLine: 'underline',
+  },
+  errorText: {
+    color: 'red',
+    marginTop: 10,
+  },
+});
