@@ -49,6 +49,21 @@ export class Profile extends Component {
     }
 
   }
+  deletePost = (postId) => {
+    db.collection("posts")
+      .doc(postId) 
+      .delete()
+      .then(() => {
+        console.log("Post eliminado");
+        
+        this.setState({
+          postsUsuario: this.state.postsUsuario.filter(
+            (post) => post.id !== postId
+          ),
+        });
+      })
+      .catch((error) => console.log(error));
+  };
   handleLogOut = () =>
     auth
       .signOut()
@@ -73,9 +88,19 @@ export class Profile extends Component {
             <FlatList
                 data={postsUsuario}
                 keyExtractor={(item) => item.id}
-                renderItem={({ item }) => <Post item={item} />}
+                renderItem={({ item }) => (
+                    <View> 
+                        <Post item={item} />
+                        <TouchableOpacity onPress={() => this.deletePost(item.id)} >
+                            <Text>Eliminar Post</Text>
+                         </TouchableOpacity>
+                    </View>
+                    
+
+                )}
+                
             />
-            <TouchableOpacity> </TouchableOpacity>
+           
             <TouchableOpacity style={styles.boton} onPress={this.handleLogOut}>
                 <Text>Log Out</Text>
             </TouchableOpacity>
