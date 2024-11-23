@@ -2,11 +2,13 @@ import { Text, View, TouchableOpacity } from "react-native";
 import React, { Component } from "react";
 import { db, auth } from "../firebase/config";
 import firebase from 'firebase' 
-export default class Post extends Component {
+
+class Post extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      like: false, // Inicializamos 'like' como un booleano
+      like: false, 
+
     };
   }
 
@@ -14,10 +16,9 @@ export default class Post extends Component {
     const { item } = this.props;
     const userEmail = auth.currentUser ? auth.currentUser.email : null;
 
-    // Verificamos si 'likes' existe y si el usuario ya ha dado like
     if (item && item.data && Array.isArray(item.data.likes) && userEmail) {
       if (item.data.likes.includes(userEmail)) {
-        this.setState({ like: true }); // Si el email del usuario está en los likes, setear 'like' en true
+        this.setState({ like: true }); 
       }
     }
   }
@@ -30,10 +31,10 @@ export default class Post extends Component {
       db.collection("posts")
         .doc(item.id)
         .update({
-          likes: firebase.firestore.FieldValue.arrayUnion(userEmail), // Usamos 'db.FieldValue' aquí
+          likes: firebase.firestore.FieldValue.arrayUnion(userEmail), 
         })
         .then(() => {
-          this.setState({ like: true }); // Establecemos 'like' en true después de dar el like
+          this.setState({ like: true }); 
         })
         .catch((error) => console.log("Error al dar like:", error));
     }
@@ -47,10 +48,10 @@ export default class Post extends Component {
       db.collection("posts")
         .doc(item.id)
         .update({
-          likes: firebase.firestore.FieldValue.arrayRemove(userEmail), // Usamos 'db.FieldValue' aquí también
+          likes: firebase.firestore.FieldValue.arrayRemove(userEmail), 
         })
         .then(() => {
-          this.setState({ like: false }); // Establecemos 'like' en false después de quitar el like
+          this.setState({ like: false }); 
         })
         .catch((error) => console.log("Error al quitar like:", error));
     }
@@ -71,7 +72,10 @@ export default class Post extends Component {
             <Text>Like</Text>
           </TouchableOpacity>
         )}
+        <Text>Cantidad de likes: {this.props.item.data.likes.length}</Text>
       </View>
     );
   }
 }
+
+export default Post
