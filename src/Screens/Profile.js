@@ -5,6 +5,7 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { auth, db } from "../firebase/config";
 import Post from "../Components/Post";
@@ -97,13 +98,13 @@ export class Profile extends Component {
     return (
       <View style={styles.container}>
         <Text>
-        Nombre de usuario:{dataUsuario.length > 0 ? dataUsuario[0].data.userName : "Cargando..."}
+        Nombre de usuario:{dataUsuario.length > 0 ? (dataUsuario[0].data.userName) : (<ActivityIndicator size="small" color="#00BFFF" />)}
       </Text>
         <Text> Email: {email}</Text>
         <Text> Cantidad de posteos: {postsUsuario.length}</Text>
 
         {isLoading ? (
-          <Text>Cargando...</Text>
+          <ActivityIndicator size="small" color="#00BFFF" />
         ) : postsUsuario.length > 0 ? (
           <>
             <FlatList

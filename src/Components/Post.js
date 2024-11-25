@@ -1,7 +1,9 @@
-import { Text, View, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import React, { Component } from "react";
 import { db, auth } from "../firebase/config";
-import firebase from 'firebase' 
+import firebase from 'firebase';
+import { Ionicons } from "@expo/vector-icons"; 
+
 
 class Post extends Component {
   constructor(props) {
@@ -58,24 +60,69 @@ class Post extends Component {
   };
 
   render() {
+    const { item } = this.props;
+    const { like } = this.state;
     return (
-      <View>
-        <Text>{this.props.item.data.mensaje}</Text>
-        <Text>{this.props.item.data.email}</Text>
+      <View style={styles.postContainer}>
+        <Text style={styles.title}>{item.data.titulo}</Text>
+        <Text style={styles.email}>{item.data.email}</Text>
+        <Text style={styles.message}>{item.data.mensaje}</Text>
 
-        {this.state.like ? (
-          <TouchableOpacity onPress={this.handleDislike}>
-            <Text>Dislike</Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity onPress={this.handleLike}>
-            <Text>Like</Text>
-          </TouchableOpacity>
-        )}
-        <Text>Cantidad de likes: {this.props.item.data.likes.length}</Text>
+        <View style={styles.likeRow}>
+        <TouchableOpacity
+          style={styles.likeContainer}
+          onPress={like ? this.handleDislike : this.handleLike}
+        >
+          <Ionicons
+            name={like ? "heart" : "heart-outline"}
+            size={24}
+            color={like ? "red" : "black"}
+          />
+        </TouchableOpacity>
+        <Text style={styles.likeCount}>{item.data.likes.length}</Text>
+        </View>
       </View>
+
     );
   }
 }
 
 export default Post
+
+const styles = StyleSheet.create({
+  postContainer: {
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    padding: 15,
+    marginBottom: 15,
+    elevation: 2,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 10,
+  },
+  email: {
+    fontSize: 12,
+    color: "#999",
+    marginBottom: 10,
+  },
+  message: {
+    fontSize: 16,
+    color: "#555",
+    marginBottom: 15,
+  },
+  likeRow: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  likeContainer: {
+    marginRight: 5,
+  },
+  likeCount: {
+    fontSize: 16,
+    color: "#555",
+  },
+});
