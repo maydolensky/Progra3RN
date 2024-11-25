@@ -107,7 +107,7 @@ export class Profile extends Component {
           <FontAwesome5 name="glass-martini-alt" size={24} color="black" />
         </View>
 
-        <View style={styles.infoRow}>
+        <View style={styles.infoColumna}>
           <Text style={styles.info}> {email}</Text>
           <Text style={styles.info}>
             {" "}
@@ -225,8 +225,8 @@ const styles = StyleSheet.create({
     position: "absolute",
   objectPosition: 'center'
   },
-  infoRow: {
-    flexDirection: "row",
+  infoColumna: {
+    flexDirection: "column",
     justifyContent: "space-around",
     alignItems: "center",
     padding: 10,
