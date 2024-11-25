@@ -60,7 +60,7 @@ class Register extends Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.heading}>Registro</Text>
+        <Text style={styles.title}>Registro</Text>
 
         <TextInput
           style={styles.field}
@@ -95,18 +95,17 @@ class Register extends Component {
             )
           }
         >
-          {" "}
-          <Text style={styles.colorBoton}> Registrarme </Text>
+          <Text style={styles.botonTexto}> Registrarme </Text>
         </TouchableOpacity>
 
         
 
-        {this.state.errorMSG && <Text>{this.state.errorMSG}</Text>}
+        {this.state.errorMSG && <Text style={styles.errorText} >{this.state.errorMSG}</Text>}
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate("Login")}
-          style={styles.button}
+          style={styles.botonSecundario}
         >
-          <Text>Ya tengo cuenta</Text>
+          <Text style={styles.botonSecundarioTexto}>Ya tengo cuenta</Text>
         </TouchableOpacity>
       </View>
     );
@@ -117,47 +116,57 @@ export default Register;
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 10,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f4f4f4",
+    padding: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
     marginBottom: 20,
+    color: "#333",
   },
   field: {
-    Altura: 20,
-    paddingVertical: 15,
-    paddingHorizontal: 10,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderStyle: "solid",
-    borderRadius: 6,
-    marginVertical: 10,
+    width: "90%",
+    height: 50,
+    backgroundColor: "#fff",
+    borderRadius: 25,
+    paddingHorizontal: 15,
+    fontSize: 16,
+    marginBottom: 15,
+    elevation: 5,//fuente: https://stackoverflow.com/questions/41482448/material-design-elevation-correct-css
   },
   boton: {
-    backgroundColor: "#28a745",
-    paddingHorizontal: 10,
-    paddingVertical: 6,
+    backgroundColor: "#007BFF",
+    width: "90%",
+    height: 50,
+    borderRadius: 25,
+    justifyContent: "center",
     alignItems: "center",
-    borderRadius: 4,
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: "#28a745",
+    marginBottom: 15,
+    elevation: 5, //fuente: https://stackoverflow.com/questions/41482448/material-design-elevation-correct-css
   },
   botonInactivo: {
     backgroundColor: "#ccc",
-    borderColor: "#ccc",
   },
-  colorBoton: {
+  botonTexto: {
     color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
-  heading: {
-    fontSize: 30,
-    fontWeight: 700,
-    marginBottom: 10,
-  },
-  button: {
-    backgroundColor: "#51b9e9",
-    borderRadius: 5,
-    padding: 5,
-    width: "100%",
-    alignItems: "center",
+  botonSecundario: {
     marginTop: 10,
+  },
+  botonSecundarioTexto: {
+    color: "#007BFF",
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+  errorText: {
+    color: "red",
+    marginTop: 10,
+    fontSize: 14,
   },
 });

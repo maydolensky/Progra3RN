@@ -124,8 +124,20 @@ export class Profile extends Component {
               <Text>Log Out</Text>
             </TouchableOpacity>
           </>
-        ) : (
-          <Text> El usuario no ha subido ningun post</Text>
+        ) : ( <>
+        
+              <Text> El usuario no ha subido ningun post</Text>
+              <TouchableOpacity style={styles.boton} onPress={this.handleLogOut}>
+              <Text>Log Out</Text>
+             </TouchableOpacity>
+
+            
+             </>
+         
+         
+        
+
+          
         )}
       </View>
     );
