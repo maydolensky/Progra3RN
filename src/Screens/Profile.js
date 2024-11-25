@@ -6,8 +6,11 @@ import {
   FlatList,
   TouchableOpacity,
   ActivityIndicator,
+  Image
 } from "react-native";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { auth, db } from "../firebase/config";
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import Post from "../Components/Post";
 
 export class Profile extends Component {
@@ -97,11 +100,25 @@ export class Profile extends Component {
 
     return (
       <View style={styles.container}>
-        <Text>
-        Nombre de usuario:{dataUsuario.length > 0 ? (dataUsuario[0].data.userName) : (<ActivityIndicator size="small" color="#00BFFF" />)}
-      </Text>
-        <Text> Email: {email}</Text>
-        <Text> Cantidad de posteos: {postsUsuario.length}</Text>
+      
+        <Image
+          source={require("../../assets/fondoProfile.jpg")} 
+          style={styles.imagen}
+        />
+        <View style={styles.headerConainer}> 
+          <Text  style={styles.headerText}>
+
+            {dataUsuario.length > 0 ? (dataUsuario[0].data.userName) : (<ActivityIndicator size="small" color="#00BFFF" />)}
+
+          </Text>
+          <FontAwesome5 name="glass-martini-alt" size={24} color="black" />
+
+       </View>
+        
+        <View  style={styles.infoRow}> 
+          <Text  style={styles.info} > {email}</Text>
+          <Text  style={styles.info} > Cantidad de posteos: {postsUsuario.length}</Text> 
+        </View>
 
         {isLoading ? (
           <ActivityIndicator size="small" color="#00BFFF" />
@@ -111,11 +128,11 @@ export class Profile extends Component {
               data={postsUsuario}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
-                <View> 
+                <View style={styles.postContainer}> 
                     <Post item={item} />
-                    <TouchableOpacity onPress={() => this.deletePost(item.id)} >
-                        <Text>Eliminar Post</Text>
-                     </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.deletePost(item.id)} style={styles.deleteIcon}  >
+                     <MaterialIcons name="delete" size={24} color="black" />
+                    </TouchableOpacity>
                 </View>
                 
             )}
@@ -150,17 +167,69 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     justifyContent: "center",
-    backgroundColor: "#fff",
   },
+  headerConainer:{
+    flexDirection: "row", 
+    justifyContent: "center", 
+    alignItems: "center", 
+    marginBottom: 10, 
+
+  },
+  headerText: {
+    color: 'black',
+    fontSize: 40,
+    fontWeight: "bold",
+    textAlign: 'center'
+
+  },
+
+  postContainer: {
+    marginBottom: 20,
+    position: 'relative', 
+  },
+  deleteIcon: {
+    position: 'absolute', 
+    top: 10, 
+    right: 10, 
+    backgroundColor: '#fff',
+    borderRadius: 15,
+    padding: 5,
+    elevation: 2, 
+  },
+
   boton: {
-    backgroundColor: "#28a745",
+    backgroundColor: "#D2B48C",
     paddingHorizontal: 10,
     paddingVertical: 6,
     alignItems: "center",
     borderRadius: 4,
     borderWidth: 1,
     borderStyle: "solid",
-    borderColor: "#28a745",
+    width: 120,
+    alignSelf: "center",
+    borderColor: "#D2B48C",
+  },
+  imagen: {
+    height: "100%",
+    width: '100%',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    position: 'absolute'   
+  },
+  infoRow: {
+    flexDirection: "row",
+    justifyContent: "space-around", 
+    alignItems: "center",
+    padding: 10,
+    marginTop: 10},
+
+  info: {
+    alignItems: 'center',
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "black",
   },
 });
 
