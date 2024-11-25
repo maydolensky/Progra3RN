@@ -33,7 +33,7 @@ class Login extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.heading}>Ingresar</Text>
+        <Text style={styles.title}>Ingresar</Text>
         <TextInput style={styles.field}
           keyboardType='email-address'
           placeholder='email'
@@ -48,10 +48,10 @@ class Login extends Component {
         <TouchableOpacity style={styles.button} onPress={() => this.handleSubmit(this.state.email, this.state.password)}>
           <Text style={[styles.boton]}> Login </Text>
         </TouchableOpacity>
-        {this.state.errorMSG && <Text>{this.state.errorMSG}</Text>}
+        {this.state.errorMSG && <Text style={styles.errorText}>{this.state.errorMSG}</Text>}
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate ('Register')} style={styles.button}
-        ><Text>Register</Text> </TouchableOpacity>
+        ><Text style={[styles.boton]}>Register</Text> </TouchableOpacity>
       </View>
     )
   }
@@ -60,22 +60,16 @@ export default Login
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    
     alignItems: 'center',
     backgroundColor: '#f4f4f4',
     padding: 20,
   },
-  heading: {
+  title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
     color: '#333',
-  },
-  profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    marginBottom: 20,
   },
   field: {
     width: '90%',
@@ -85,28 +79,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     fontSize: 16,
     marginBottom: 15,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    elevation: 5,
+    elevation: 5, //fuente: https://stackoverflow.com/questions/41482448/material-design-elevation-correct-css
   },
   button: {
-    backgroundColor: '#4a90e2',
+    backgroundColor: "#007BFF",
     width: '90%',
     height: 50,
     borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 15,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    elevation: 5,
+    elevation: 5, 
   },
   buttonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
     fontWeight: 'bold',
   },
@@ -116,10 +102,13 @@ const styles = StyleSheet.create({
   registerText: {
     color: '#4a90e2',
     fontSize: 14,
-    textDecorationLine: 'underline',
   },
   errorText: {
     color: 'red',
     marginTop: 10,
+    alignSelf: "center",
   },
+  boton:{
+    color:"white",
+  }
 });

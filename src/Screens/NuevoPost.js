@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
-import { StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { StyleSheet, TextInput, TouchableOpacity, Image } from "react-native";
 import { auth, db } from "../firebase/config";
 
 export class NuevoPost extends Component {
@@ -35,7 +35,9 @@ export class NuevoPost extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.heading}>Subi tu receta gastronómica!</Text>
+        <Image style={styles.image} source={require("../../assets/fondoo.jpg")} resizeMode="cover"/>
+        <Text style={styles.title}>Subi tu receta gastronómica!</Text>
+        <View style={styles.arriba}>
         <TextInput
           style={styles.field}
           keyboardType="default"
@@ -58,7 +60,7 @@ export class NuevoPost extends Component {
           value={this.state.mensaje}
           
         />
-        {this.state.errorMSG && <Text>{this.state.errorMSG}</Text>}
+        {this.state.errorMSG && <Text style={styles.errorMSG}>{this.state.errorMSG}</Text>}
 
         <TouchableOpacity
           style={styles.boton}
@@ -69,6 +71,7 @@ export class NuevoPost extends Component {
         >
           <Text style={styles.colorBoton}> Subir </Text>
         </TouchableOpacity>
+          </View>
       </View>
     );
   }
@@ -77,43 +80,56 @@ export class NuevoPost extends Component {
 export default NuevoPost;
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     paddingHorizontal: 10,
     marginBottom: 20,
   },
+  title: {
+    fontSize: 30,
+    fontWeight: "bold",
+    marginBottom: 20,
+    marginTop: 20,
+    textAlign: "center",
+    color: "black",
+   
+  },
   field: {
-    Altura: 20,
-    paddingVertical: 15,
-    paddingHorizontal: 10,
-    borderWidth: 1,
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 15,
+    fontSize: 16,
+    marginBottom: 15,
     borderColor: "#ccc",
-    borderStyle: "solid",
-    borderRadius: 6,
-    marginVertical: 10,
+    borderWidth: 1,
+    elevation: 3,
   },
   boton: {
-    backgroundColor: "#28a745",
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    alignItems: "center",
-    borderRadius: 4,
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: "#28a745",
+    backgroundColor: "#007BFF",
+    height: 50,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 15,
+    elevation: 5, 
   },
   colorBoton: {
     color: "#fff",
   },
-  heading: {
-    fontSize: 30,
-    fontWeight: 700,
-    marginBottom: 10,
-  },
-  button: {
-    backgroundColor: "#51b9e9",
-    borderRadius: 5,
-    padding: 5,
-    width: "100%",
-    alignItems: "center",
+  errorMSG: {
+    color: 'red',
     marginTop: 10,
+    marginBottom:20,
+    alignSelf: "center",
   },
+  image:{ 
+    height: "100%",
+    width:"100%",
+    position: "absolute",
+   
+  },
+  arriba:{
+    flex: 1,
+    justifyContent: "center",  
+  }
+
 });
