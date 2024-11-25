@@ -6,11 +6,11 @@ import {
   FlatList,
   TouchableOpacity,
   ActivityIndicator,
-  Image
+  Image,
 } from "react-native";
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { auth, db } from "../firebase/config";
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import Post from "../Components/Post";
 
 export class Profile extends Component {
@@ -39,7 +39,7 @@ export class Profile extends Component {
               data: doc.data(),
             });
           });
-        
+
           postsUsuario.sort((a, b) => b.data.createdAt - a.data.createdAt);
           this.setState({
             postsUsuario: postsUsuario,
@@ -47,7 +47,7 @@ export class Profile extends Component {
             isLoading: false,
           });
         });
-        db.collection("users")
+      db.collection("users")
         .where("email", "==", user.email)
         .onSnapshot((docs) => {
           let dataUsuario = [];
@@ -56,16 +56,11 @@ export class Profile extends Component {
               id: doc.id,
               data: doc.data(),
             });
-          }); 
+          });
           this.setState({
             dataUsuario: dataUsuario,
-            
           });
-        
-        
-        })
-
-
+        });
     } else {
       this.setState({
         errorMsg: "No se encontró usuario en sesión",
@@ -74,16 +69,12 @@ export class Profile extends Component {
   }
   deletePost = (postId) => {
     db.collection("posts")
-      .doc(postId) 
+      .doc(postId)
       .delete()
       .then(() => {
         console.log("Post eliminado");
-        
-        this.setState({
-          postsUsuario: this.state.postsUsuario.filter(
-            (post) => post.id !== postId
-          ),
-        });
+
+       
       })
       .catch((error) => console.log(error));
   };
@@ -96,28 +87,32 @@ export class Profile extends Component {
       .catch((error) => this.setState({ errorMSG: error.message }));
 
   render() {
-    const { email, errorMsg, dataUsuario,  postsUsuario, isLoading } = this.state;
+    const { email, dataUsuario, postsUsuario, isLoading } =
+      this.state;
 
     return (
       <View style={styles.container}>
-      
         <Image
-          source={require("../../assets/fondoProfile.jpg")} 
+          source={require("../../assets/fondoProfile.jpg")}
           style={styles.imagen}
         />
-        <View style={styles.headerConainer}> 
-          <Text  style={styles.headerText}>
-
-            {dataUsuario.length > 0 ? (dataUsuario[0].data.userName) : (<ActivityIndicator size="small" color="#00BFFF" />)}
-
+        <View style={styles.headerConainer}>
+          <Text style={styles.headerText}>
+            {dataUsuario.length > 0 ? (
+              dataUsuario[0].data.userName
+            ) : (
+              <ActivityIndicator size="small" color="#00BFFF" />
+            )}
           </Text>
           <FontAwesome5 name="glass-martini-alt" size={24} color="black" />
+        </View>
 
-       </View>
-        
-        <View  style={styles.infoRow}> 
-          <Text  style={styles.info} > {email}</Text>
-          <Text  style={styles.info} > Cantidad de posteos: {postsUsuario.length}</Text> 
+        <View style={styles.infoRow}>
+          <Text style={styles.info}> {email}</Text>
+          <Text style={styles.info}>
+            {" "}
+            Cantidad de posteos: {postsUsuario.length}
+          </Text>
         </View>
 
         {isLoading ? (
@@ -128,34 +123,35 @@ export class Profile extends Component {
               data={postsUsuario}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
-                <View style={styles.postContainer}> 
-                    <Post item={item} />
-                    <TouchableOpacity onPress={() => this.deletePost(item.id)} style={styles.deleteIcon}  >
-                     <MaterialIcons name="delete" size={24} color="black" />
-                    </TouchableOpacity>
+                <View style={styles.postContainer}>
+                  <Post item={item} />
+                  <TouchableOpacity
+                    onPress={() => this.deletePost(item.id)}
+                    style={styles.deleteIcon}
+                  >
+                    <MaterialIcons name="delete" size={24} color="black" />
+                  </TouchableOpacity>
                 </View>
-                
-            )}
-               
+              )}
             />
             <TouchableOpacity style={styles.boton} onPress={this.handleLogOut}>
               <Text>Log Out</Text>
             </TouchableOpacity>
           </>
-        ) : ( <>
-        
-              <Text> El usuario no ha subido ningun post</Text>
-              <TouchableOpacity style={styles.boton} onPress={this.handleLogOut}>
-              <Text>Log Out</Text>
-             </TouchableOpacity>
-
-            
-             </>
-         
-         
-        
-
-          
+        ) : (
+          <>
+            <View style={styles.noPostContainer}>
+              <Text style={styles.noSubioPost}>
+                El usuario no ha subido ningún post
+              </Text>
+              <TouchableOpacity
+                style={styles.boton}
+                onPress={this.handleLogOut}
+              >
+                <Text>Log Out</Text>
+              </TouchableOpacity>
+            </View>
+          </>
         )}
       </View>
     );
@@ -168,35 +164,45 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: "center",
   },
-  headerConainer:{
-    flexDirection: "row", 
-    justifyContent: "center", 
-    alignItems: "center", 
-    marginBottom: 10, 
-
+  headerConainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
   },
   headerText: {
-    color: 'black',
+    color: "black",
     fontSize: 40,
     fontWeight: "bold",
-    textAlign: 'center'
+    textAlign: "center",
+  },
+  noPostContainer:{
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 20,
 
   },
-
+  noSubioPost: {
+    fontSize: 18,
+    color: "gray",
+    textAlign: "center",
+    marginBottom: 20,
+  },
   postContainer: {
     marginBottom: 20,
-    position: 'relative', 
+    position: "relative",
   },
   deleteIcon: {
-    position: 'absolute', 
-    top: 10, 
-    right: 10, 
-    backgroundColor: '#fff',
+    position: "absolute",
+    top: 10,
+    right: 10,
+    backgroundColor: "#fff",
     borderRadius: 15,
     padding: 5,
-    elevation: 2, 
+    elevation: 2,
   },
-
+  
   boton: {
     backgroundColor: "#D2B48C",
     paddingHorizontal: 10,
@@ -211,22 +217,23 @@ const styles = StyleSheet.create({
   },
   imagen: {
     height: "100%",
-    width: '100%',
+    width: "100%",
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    position: 'absolute'   
+    position: "absolute",
   },
   infoRow: {
     flexDirection: "row",
-    justifyContent: "space-around", 
+    justifyContent: "space-around",
     alignItems: "center",
     padding: 10,
-    marginTop: 10},
+    marginTop: 10,
+  },
 
   info: {
-    alignItems: 'center',
+    alignItems: "center",
     fontSize: 20,
     fontWeight: "bold",
     color: "black",
