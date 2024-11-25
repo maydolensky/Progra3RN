@@ -16,15 +16,6 @@ export class Home extends Component {
   }
 
   componentDidMount() {
-    auth.onAuthStateChanged((user) => {
-      if (!user) {
-        this.props.navigation.navigate("Login");
-      }
-    });
-    this.setState({
-      isLoading: true,
-    });
-    
     this.fetchPosts();}
     fetchPosts = () => {
     db.collection("posts")

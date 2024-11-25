@@ -16,12 +16,11 @@ class Post extends Component {
 
   componentDidMount() {
     const { item } = this.props;
-    const userEmail = auth.currentUser ? auth.currentUser.email : null;
-
-    if (item && item.data && Array.isArray(item.data.likes) && userEmail) {
-      if (item.data.likes.includes(userEmail)) {
-        this.setState({ like: true }); 
-      }
+    
+    if(item.data.likes.includes(auth.currentUser.email)){
+      this.setState({
+        like: true
+      })
     }
   }
 
