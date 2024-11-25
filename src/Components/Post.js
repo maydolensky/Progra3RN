@@ -1,26 +1,24 @@
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import React, { Component } from "react";
 import { db, auth } from "../firebase/config";
-import firebase from 'firebase';
-import { Ionicons } from "@expo/vector-icons"; 
-
+import firebase from "firebase";
+import { Ionicons } from "@expo/vector-icons";
 
 class Post extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      like: false, 
-
+      like: false,
     };
   }
 
   componentDidMount() {
     const { item } = this.props;
-    
-    if(item.data.likes.includes(auth.currentUser.email)){
+
+    if (item.data.likes.includes(auth.currentUser.email)) {
       this.setState({
-        like: true
-      })
+        like: true,
+      });
     }
   }
 
@@ -32,12 +30,14 @@ class Post extends Component {
       db.collection("posts")
         .doc(item.id)
         .update({
-          likes: firebase.firestore.FieldValue.arrayUnion(userEmail), 
+          likes: firebase.firestore.FieldValue.arrayUnion(userEmail),
         })
         .then(() => {
-          this.setState({ like: true }); 
+          this.setState({ like: true });
         })
-        .catch((error) => console.log("Error al dar like:", error));
+        .catch((error) => {
+          alert("Ocurrió un error al dar like, por favor intentá nuevamente.");
+        });
     }
   };
 
@@ -49,10 +49,10 @@ class Post extends Component {
       db.collection("posts")
         .doc(item.id)
         .update({
-          likes: firebase.firestore.FieldValue.arrayRemove(userEmail), 
+          likes: firebase.firestore.FieldValue.arrayRemove(userEmail),
         })
         .then(() => {
-          this.setState({ like: false }); 
+          this.setState({ like: false });
         })
         .catch((error) => console.log("Error al quitar like:", error));
     }
@@ -68,25 +68,24 @@ class Post extends Component {
         <Text style={styles.message}>{item.data.mensaje}</Text>
 
         <View style={styles.likeRow}>
-        <TouchableOpacity
-          style={styles.likeContainer}
-          onPress={like ? this.handleDislike : this.handleLike}
-        >
-          <Ionicons
-            name={like ? "heart" : "heart-outline"}
-            size={24}
-            color={like ? "red" : "black"}
-          />
-        </TouchableOpacity>
-        <Text style={styles.likeCount}>{item.data.likes.length}</Text>
+          <TouchableOpacity
+            style={styles.likeContainer}
+            onPress={like ? this.handleDislike : this.handleLike}
+          >
+            <Ionicons
+              name={like ? "heart" : "heart-outline"}
+              size={24}
+              color={like ? "red" : "black"}
+            />
+          </TouchableOpacity>
+          <Text style={styles.likeCount}>{item.data.likes.length}</Text>
         </View>
       </View>
-
     );
   }
 }
 
-export default Post
+export default Post;
 
 const styles = StyleSheet.create({
   postContainer: {

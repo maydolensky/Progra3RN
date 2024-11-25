@@ -1,9 +1,15 @@
 import React, { Component } from "react";
-import { Text, View, TouchableOpacity, StyleSheet, FlatList, Image, ActivityIndicator } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  FlatList,
+  Image,
+  ActivityIndicator,
+} from "react-native";
 import { auth, db } from "../firebase/config";
 import Post from "../Components/Post";
 const backgroundImage = require("../../assets/fondo-home.png");
-
 
 export class Home extends Component {
   constructor() {
@@ -16,24 +22,25 @@ export class Home extends Component {
   }
 
   componentDidMount() {
-    this.fetchPosts();}
-    fetchPosts = () => {
+    this.fetchPosts();
+  }
+  fetchPosts = () => {
     db.collection("posts")
-    .orderBy("createdAt", "desc")
-    .onSnapshot((docs) => {
-      let posteos = [];
-      docs.forEach((doc) => {
-        posteos.push({
-          id: doc.id,
-          data: doc.data(),
+      .orderBy("createdAt", "desc")
+      .onSnapshot((docs) => {
+        let posteos = [];
+        docs.forEach((doc) => {
+          posteos.push({
+            id: doc.id,
+            data: doc.data(),
+          });
+        });
+        this.setState({
+          posteos: posteos,
+          isLoading: false,
         });
       });
-      this.setState({
-        posteos: posteos,
-        isLoading: false,
-      });
-    });
-  }
+  };
 
   handleLogOut = () =>
     auth
@@ -62,7 +69,6 @@ export class Home extends Component {
         ) : (
           <Text>No se han encontrado recetas</Text>
         )}
-
       </View>
     );
   }
@@ -88,9 +94,9 @@ const styles = StyleSheet.create({
   },
   titulo: {
     fontSize: 28,
-    fontWeight: 'bold',
-    color: "#f0f0f0", 
-    textAlign: 'center',
+    fontWeight: "bold",
+    color: "#f0f0f0",
+    textAlign: "center",
     margin: 20,
   },
   title: {

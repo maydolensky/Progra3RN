@@ -1,33 +1,40 @@
 import React, { Component } from "react";
-import {View, Text, TextInput, FlatList, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { db } from "../firebase/config";
 
 export default class Usuarios extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: [], 
-      filteredUsers: [], 
-      filterValue: "", 
-      loading: true, 
+      users: [],
+      filteredUsers: [],
+      filterValue: "",
+      loading: true,
     };
   }
 
   componentDidMount() {
     db.collection("users")
-      .orderBy("userName", "desc") 
+      .orderBy("userName", "desc")
       .onSnapshot((docs) => {
         const usersArray = [];
         docs.forEach((doc) => {
           usersArray.push({
-            id: doc.id, 
-            data: doc.data(), 
+            id: doc.id,
+            data: doc.data(),
           });
         });
 
         this.setState({
           users: usersArray,
-          filteredUsers: usersArray, 
+          filteredUsers: usersArray,
           loading: false,
         });
       });
@@ -71,7 +78,10 @@ export default class Usuarios extends Component {
           onChangeText={this.handleFilterChange}
         />
 
-        <TouchableOpacity style={styles.resetButton} onPress={this.handleResetFilter}>
+        <TouchableOpacity
+          style={styles.resetButton}
+          onPress={this.handleResetFilter}
+        >
           <Text style={styles.resetButtonText}>Resetear</Text>
         </TouchableOpacity>
 
@@ -87,7 +97,9 @@ export default class Usuarios extends Component {
           />
         ) : (
           <View style={styles.center}>
-            <Text style={styles.noResultsText}>No se encontraron usuarios.</Text>
+            <Text style={styles.noResultsText}>
+              No se encontraron usuarios.
+            </Text>
           </View>
         )}
       </View>
@@ -106,7 +118,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
     textAlign: "center",
-    color: "#2c3e50",  
+    color: "#2c3e50",
   },
   input: {
     height: 45,
@@ -135,8 +147,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderWidth: 1,
     borderColor: "#ddd",
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     elevation: 2, //fuente: https://stackoverflow.com/questions/41482448/material-design-elevation-correct-css
   },
   userText: {

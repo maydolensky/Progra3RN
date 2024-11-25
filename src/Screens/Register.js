@@ -11,45 +11,40 @@ class Register extends Component {
       password: "",
       registered: false,
       errorMSG: "",
-      errorEmail: '',
-      errorPassword: '',
-      errorUserName: ''
+      errorEmail: "",
+      errorPassword: "",
+      errorUserName: "",
     };
   }
 
-  componentDidMount(){
-    auth.onAuthStateChanged(user =>{
-      if(user){
-        this.props.navigation.navigate('Login')
+  componentDidMount() {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.props.navigation.navigate("Login");
       }
-    })
+    });
   }
 
   handleSubmit(email, pass, userName) {
-
-    if (email === '') this.setState({errorEmail : 'el Email es requerido'}) 
-      else{
-        this.setState({errorEmail : ' '})
-
+    if (email === "") this.setState({ errorEmail: "el Email es requerido" });
+    else {
+      this.setState({ errorEmail: " " });
     }
-    if (userName === '') this.setState({errorUserName : 'el Nombre de usuario es requerido'})
-      else{
-        this.setState({errorUserName: ' '})
-
-
+    if (userName === "")
+      this.setState({ errorUserName: "el Nombre de usuario es requerido" });
+    else {
+      this.setState({ errorUserName: " " });
     }
-    if (pass === '') this.setState({errorPassword : 'la Contraseña es requerida'})
-      else{
-        this.setState({errorPassword: ' '})
-
-
+    if (pass === "")
+      this.setState({ errorPassword: "la Contraseña es requerida" });
+    else {
+      this.setState({ errorPassword: " " });
     }
-    if (email === '' || pass === '' || userName === ""){
-        this.setState({errorMSG: 'todos lo campos son obligatorios'})
-        return(this.state.errorMSG)
-        }
-    else{
-        auth
+    if (email === "" || pass === "" || userName === "") {
+      this.setState({ errorMSG: "todos lo campos son obligatorios" });
+      return this.state.errorMSG;
+    } else {
+      auth
         .createUserWithEmailAndPassword(email, pass)
         .then((response) => {
           if (response) {
@@ -60,23 +55,25 @@ class Register extends Component {
                 createdAt: Date.now(),
               })
               .then(() => {
-                this.setState({ registered: true,
-                                errorMSG: "",
-                                errorEmail:"", 
-                                errorPassword:'', 
-                                errorUserName:"" });
+                this.setState({
+                  registered: true,
+                  errorMSG: "",
+                  errorEmail: "",
+                  errorPassword: "",
+                  errorUserName: "",
+                });
 
                 this.props.navigation.navigate("Login");
               })
-              .catch((e) => console.log(error.message));
+              .catch(() => {
+                alert(
+                  "Ocurrió un error al registrate. Intentá de nuevo más tarde."
+                );
+              });
           }
         })
-        .catch((error) => this.setState({ errorMSG: error.message }))
-    };
-
-    
-
-    
+        .catch((error) => this.setState({ errorMSG: error.message }));
+    }
   }
   render() {
     const camposCompletos =
@@ -95,7 +92,7 @@ class Register extends Component {
           onChangeText={(text) => this.setState({ email: text })}
           value={this.state.email}
         />
-        <Text style={styles.mensajesError} >{this.state.errorEmail}</Text>
+        <Text style={styles.mensajesError}>{this.state.errorEmail}</Text>
         <TextInput
           style={styles.field}
           keyboardType="default"
@@ -103,8 +100,7 @@ class Register extends Component {
           onChangeText={(text) => this.setState({ userName: text })}
           value={this.state.userName}
         />
-        <Text style={styles.mensajesError} >{this.state.errorUserName}</Text>
-
+        <Text style={styles.mensajesError}>{this.state.errorUserName}</Text>
 
         <TextInput
           style={styles.field}
@@ -114,7 +110,7 @@ class Register extends Component {
           onChangeText={(text) => this.setState({ password: text })}
           value={this.state.password}
         />
-         <Text style={styles.mensajesError} >{this.state.errorPassword}</Text>
+        <Text style={styles.mensajesError}>{this.state.errorPassword}</Text>
 
         <TouchableOpacity
           style={[styles.boton, !camposCompletos && styles.botonInactivo]}
@@ -129,9 +125,9 @@ class Register extends Component {
           <Text style={styles.botonTexto}> Registrarme </Text>
         </TouchableOpacity>
 
-        
-
-        {this.state.errorMSG && <Text style={styles.errorText} >{this.state.errorMSG}</Text>}
+        {this.state.errorMSG && (
+          <Text style={styles.errorText}>{this.state.errorMSG}</Text>
+        )}
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate("Login")}
           style={styles.botonSecundario}
@@ -160,9 +156,9 @@ const styles = StyleSheet.create({
     color: "#333",
   },
   mensajesError: {
-    color:"red", 
+    color: "red",
     alignItems: "center",
-    margin: '10px'
+    margin: "10px",
   },
   field: {
     width: "90%",
@@ -172,7 +168,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     fontSize: 16,
     marginBottom: 15,
-    elevation: 5,//fuente: https://stackoverflow.com/questions/41482448/material-design-elevation-correct-css
+    elevation: 5, //fuente: https://stackoverflow.com/questions/41482448/material-design-elevation-correct-css
   },
   boton: {
     backgroundColor: "#007BFF",

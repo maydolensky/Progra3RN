@@ -71,12 +71,11 @@ export class Profile extends Component {
     db.collection("posts")
       .doc(postId)
       .delete()
-      .then(() => {
-        console.log("Post eliminado");
-
-       
-      })
-      .catch((error) => console.log(error));
+      .catch(() => {
+        alert(
+          "Ocurrió un error al eliminar el post. Intentá de nuevo más tarde."
+        );
+      });
   };
   handleLogOut = () =>
     auth
@@ -87,8 +86,7 @@ export class Profile extends Component {
       .catch((error) => this.setState({ errorMSG: error.message }));
 
   render() {
-    const { email, dataUsuario, postsUsuario, isLoading } =
-      this.state;
+    const { email, dataUsuario, postsUsuario, isLoading } = this.state;
 
     return (
       <View style={styles.container}>
@@ -176,12 +174,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
-  noPostContainer:{
+  noPostContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     marginTop: 20,
-
   },
   noSubioPost: {
     fontSize: 18,
@@ -202,7 +199,7 @@ const styles = StyleSheet.create({
     padding: 5,
     elevation: 2,
   },
-  
+
   boton: {
     backgroundColor: "#D2B48C",
     paddingHorizontal: 10,
@@ -223,7 +220,7 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     position: "absolute",
-  objectPosition: 'center'
+    objectPosition: "center",
   },
   infoColumna: {
     flexDirection: "column",

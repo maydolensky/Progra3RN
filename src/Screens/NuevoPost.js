@@ -10,68 +10,69 @@ export class NuevoPost extends Component {
       errorMSG: "",
       mensaje: "",
       titulo: "",
-
     };
   }
   handleSubmit(mensaje, titulo) {
-    if(mensaje === "" || titulo === ""){
-      this.setState({errorMSG: "Todos los campos son obligatorios"})
-      return(this.state.errorMSG)
-    }else {
-    db.collection("posts")
-      .add({
-        email: auth.currentUser.email,
-        mensaje: mensaje,
-        titulo: titulo,
-        likes: [],
-        createdAt: Date.now(),
-      })
-      .then(() => {
-        this.setState({ mensaje: "", titulo: "", errorMSG: "" });
-        this.props.navigation.navigate("Home");
-      })
-      .catch((e) => console.log(e));
-  }}
+    if (mensaje === "" || titulo === "") {
+      this.setState({ errorMSG: "Todos los campos son obligatorios" });
+      return this.state.errorMSG;
+    } else {
+      db.collection("posts")
+        .add({
+          email: auth.currentUser.email,
+          mensaje: mensaje,
+          titulo: titulo,
+          likes: [],
+          createdAt: Date.now(),
+        })
+        .then(() => {
+          this.setState({ mensaje: "", titulo: "", errorMSG: "" });
+          this.props.navigation.navigate("Home");
+        });
+    }
+  }
   render() {
     return (
       <View style={styles.container}>
-        <Image style={styles.image} source={require("../../assets/fondoo.jpg")} resizeMode="cover"/>
+        <Image
+          style={styles.image}
+          source={require("../../assets/fondoo.jpg")}
+          resizeMode="cover"
+        />
         <Text style={styles.title}>Subi tu receta gastronómica!</Text>
         <View style={styles.arriba}>
-        <TextInput
-          style={styles.field}
-          keyboardType="default"
-          placeholder="Titulo de tu receta"
-          multiline={true}
-          numberOfLines={1}
-          onChangeText={(text) => this.setState({ titulo: text })}
-          value={this.state.titulo}
-          
-        />
+          <TextInput
+            style={styles.field}
+            keyboardType="default"
+            placeholder="Titulo de tu receta"
+            multiline={true}
+            numberOfLines={1}
+            onChangeText={(text) => this.setState({ titulo: text })}
+            value={this.state.titulo}
+          />
 
+          <TextInput
+            style={styles.field}
+            keyboardType="default"
+            placeholder="Receta"
+            multiline={true}
+            numberOfLines={4}
+            onChangeText={(text) => this.setState({ mensaje: text })}
+            value={this.state.mensaje}
+          />
+          {this.state.errorMSG && (
+            <Text style={styles.errorMSG}>{this.state.errorMSG}</Text>
+          )}
 
-        <TextInput
-          style={styles.field}
-          keyboardType="default"
-          placeholder="Receta"
-          multiline={true}
-          numberOfLines={4}
-          onChangeText={(text) => this.setState({ mensaje: text })}
-          value={this.state.mensaje}
-          
-        />
-        {this.state.errorMSG && <Text style={styles.errorMSG}>{this.state.errorMSG}</Text>}
-
-        <TouchableOpacity
-          style={styles.boton}
-          onPress={() => [
-            this.handleSubmit(this.state.mensaje, this.state.titulo),
-            
-          ]}
-        >
-          <Text style={styles.colorBoton}> Subir </Text>
-        </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            style={styles.boton}
+            onPress={() => [
+              this.handleSubmit(this.state.mensaje, this.state.titulo),
+            ]}
+          >
+            <Text style={styles.colorBoton}> Subir </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -91,7 +92,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     textAlign: "center",
     color: "black",
-   
   },
   field: {
     backgroundColor: "#fff",
@@ -107,33 +107,31 @@ const styles = StyleSheet.create({
     backgroundColor: "#007BFF",
     height: 50,
     borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 15,
-    elevation: 5, 
+    elevation: 5,
   },
   colorBoton: {
     color: "#fff",
   },
   errorMSG: {
-    color: 'red',
+    color: "red",
     marginTop: 10,
-    marginBottom:20,
+    marginBottom: 20,
     alignSelf: "center",
   },
-  image:{ 
+  image: {
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
     height: "110%", // recomendación de Luca
-    width:"100%",
+    width: "100%",
     position: "absolute",
-   
   },
-  arriba:{
+  arriba: {
     flex: 1,
-    justifyContent: "center",  
-  }
-
+    justifyContent: "center",
+  },
 });
