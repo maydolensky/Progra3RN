@@ -9,7 +9,9 @@ class Login extends Component {
       email: '',
       password: '',
       loged: false,
-      errorMSG: ""
+      errorMSG: "",
+      errorEmail: "",
+      errorPass: "",
     }
   }
   
@@ -18,17 +20,37 @@ class Login extends Component {
       if(user){
         this.props.navigation.navigate('HomeMenu')
       }
-    })
-  }
-
+    })}
   handleSubmit(email, password){
+    if (email === "") {
+      this.setState({ errorEmail: "El email es obligatorio"})
+      
+    } else{
+      this.setState({errorEmail:""})
+      
+    }
+    if (password === "") {
+      this.setState({errorPass: "La contraseña es obligatoria"})
+      
+    } else{
+      this.setState({errorPass: ""})
+      
+    }
     if (email === '' || password === ''){
       this.setState({errorMSG: 'todos lo campos son obligatorios'})
       return(this.state.errorMSG)
       
     }else{
-    auth.signInWithEmailAndPassword(email, password).then(response =>{this.props.navigation.navigate("HomeMenu"), this.setState({loged:true, errorMSG: ""})})
-    .catch(error => this.setState({errorMSG: error.message}))
+    auth.signInWithEmailAndPassword(email, password)
+    .then(response =>{this.props.navigation.navigate("HomeMenu"), this.setState({loged:true, errorMSG: "", errorEmail:"", errorPass:""})})
+    .catch((error) => {
+      const errorMessage =
+        error.message.includes("INVALID_LOGIN_CREDENTIALS")
+          ? "La contraseña es incorrecta"
+          : "Error al iniciar sesión. Por favor verifica tus datos.";
+
+      this.setState({ errorMSG: errorMessage });
+    });
   }}
   render() {
     return (
@@ -39,12 +61,14 @@ class Login extends Component {
           placeholder='email'
           onChangeText={text => this.setState({ email: text })}
           value={this.state.email} />
+          <Text style={styles.errorText}>{this.state.errorEmail}</Text>
         <TextInput style={styles.field}
           keyboardType='default'
           placeholder='password'
           secureTextEntry={true}
           onChangeText={text => this.setState({ password: text })}
           value={this.state.password} />
+          <Text style={styles.errorText}>{this.state.errorPass}</Text>
         <TouchableOpacity style={styles.button} onPress={() => this.handleSubmit(this.state.email, this.state.password)}>
           <Text style={[styles.boton]}> Login </Text>
         </TouchableOpacity>
@@ -106,6 +130,7 @@ const styles = StyleSheet.create({
   errorText: {
     color: 'red',
     marginTop: 10,
+    marginBottom:20,
     alignSelf: "center",
   },
   boton:{

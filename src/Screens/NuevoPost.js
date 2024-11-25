@@ -122,7 +122,11 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   image:{ 
-    height: "100%",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    height: "110%", // recomendación de Luca
     width:"100%",
     position: "absolute",
    
